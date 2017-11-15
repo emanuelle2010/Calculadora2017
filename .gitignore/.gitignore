@@ -1,0 +1,195 @@
+package calculadora.master;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JLabel;
+
+public class Calculadora implements ActionListener {
+
+    double tela = 0;
+    double calculo = 0;
+    double memoria = 0;
+    String operacao = "ESPERA";
+    Calcula calcula = new Calcula();
+    NumeroTela numeroTela = new NumeroTela();
+    private JLabel r;
+
+    Calculadora(JLabel r) {
+        this.r = r;
+    }
+
+    public void actionPerformed(ActionEvent clique) {
+
+        String cmd = clique.getActionCommand();
+
+        switch (cmd) {
+            case "HISTORICO":
+                calcula.todosCalculos();
+                break;
+
+            case "SOMAR":
+                calculo = tela;
+                numeroTela.primeiroNumero = 0;
+                operacao = "SOMAR";
+                numeroTela.contemPonto = false;
+                break;
+
+            case "SUBTRAIR":
+                calculo = tela;
+                numeroTela.primeiroNumero = 0;
+                operacao = "SUBTRAIR";
+                numeroTela.contemPonto = false;
+                break;
+
+            case "DIVIDIR":
+                calculo = tela;
+                numeroTela.primeiroNumero = 0;
+                operacao = "DIVIDIR";
+                numeroTela.contemPonto = false;
+                break;
+
+            case "SINAL":
+                tela = tela * (-1);
+                numeroTela.primeiroNumero = tela;
+                break;
+
+            case "MULTIPLICAR":
+                calculo = tela;
+                numeroTela.primeiroNumero = 0;
+                operacao = "MULTIPLICAR";
+                numeroTela.contemPonto = false;
+                break;
+
+            case "RAIZ":
+                numeroTela.primeiroNumero = Math.sqrt(tela);
+                tela = numeroTela.primeiroNumero;
+                numeroTela.primeiroNumero = 0;
+                numeroTela.contemPonto = false;
+                break;
+
+            case "EXPOENTE":
+                calculo = tela;
+                numeroTela.primeiroNumero = 0;
+                operacao = "EXPOENTE";
+                numeroTela.contemPonto = false;
+                break;
+
+            case "FATORIAL":
+                tela = calcula.fatorial(tela);
+                numeroTela.contemPonto = false;
+                break;
+
+            case "PONTO":
+                numeroTela.contemPonto = true;
+                numeroTela.segundoNumero = numeroTela.primeiroNumero;
+                break;
+
+            case "IGUAL":
+                switch (operacao) {
+                    case "SOMAR":
+                        tela = calcula.soma(tela, calculo);
+                        numeroTela.primeiroNumero = 0;
+                        System.out.println("n depois: " + numeroTela.primeiroNumero);
+                        operacao = "ESPERA";
+                        break;
+
+                    case "SUBTRAIR":
+                        tela = calcula.sub(tela, calculo);
+                        numeroTela.primeiroNumero = 0;
+                        operacao = "ESPERA";
+                        break;
+
+                    case "MULTIPLICAR":
+                        tela = calcula.mult(tela, calculo);
+                        numeroTela.primeiroNumero = 0;
+                        operacao = "ESPERA";
+                        break;
+
+                    case "DIVIDIR":
+                        tela = calcula.div(tela, calculo);
+                        numeroTela.primeiroNumero = 0;
+                        operacao = "ESPERA";
+                        break;
+
+                    case "EXPOENTE":
+                        tela = calcula.exp(tela, calculo);
+                        operacao = "ESPERA";
+                        break;
+                }
+
+                numeroTela.contemPonto = false;
+
+                mostrar();
+                break;
+
+            case "RESET":
+                tela = 0;
+                numeroTela.primeiroNumero = 0;
+                numeroTela.segundoNumero = 0;
+                calculo = 0;
+                operacao = "ESPERA";
+                numeroTela.contemPonto = false;
+                calcula.resetHistorico();
+                break;
+
+            case "ARMAZENAR":
+                memoria = tela;
+                break;
+
+            case "APAGAR":
+                memoria = 0;
+                break;
+
+            case "LER":
+                numeroTela.primeiroNumero = memoria;
+                tela = memoria;
+                break;
+
+            case "ZERO":
+                this.tela = numeroTela.numerosTela(0);
+                break;
+
+            case "UM":
+                this.tela = numeroTela.numerosTela(1);
+                break;
+
+            case "DOIS":
+                this.tela = numeroTela.numerosTela(2);
+                break;
+
+            case "TRES":
+                this.tela = numeroTela.numerosTela(3);
+                break;
+
+            case "QUATRO":
+                this.tela = numeroTela.numerosTela(4);
+                break;
+
+            case "CINCO":
+                this.tela = numeroTela.numerosTela(5);
+                break;
+
+            case "SEIS":
+                this.tela = numeroTela.numerosTela(6);
+                break;
+
+            case "SETE":
+                this.tela = numeroTela.numerosTela(7);
+                break;
+
+            case "OITO":
+                this.tela = numeroTela.numerosTela(8);
+                break;
+
+            case "NOVE":
+                this.tela = numeroTela.numerosTela(9);
+                break;
+        }
+
+        mostrar();
+    }
+
+    private void mostrar() {
+        r.setText("" + tela);
+    }
+}
